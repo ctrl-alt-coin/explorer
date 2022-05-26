@@ -9,7 +9,7 @@ import Ledgers from '../Ledgers';
 import Header from '../Header';
 import './app.css';
 import ledger from '../Ledger';
-import accounts from '../Accounts';
+import Accounts from '../Accounts';
 import transactions from '../Transactions';
 import network from '../Network';
 import validators from '../Validators';
@@ -94,7 +94,7 @@ const App = props => {
             <Switch>
               <Route exact path="/" component={Ledgers} />
               <Route exact path="/ledgers/:identifier" component={ledger} />
-              <Route exact path="/accounts/:id" component={accounts} />
+              <Route exact path="/accounts/:id?/:tab?/:assetType?" render={() => <Accounts />} />
               <Route exact path="/transactions/:identifier/:tab?" component={transactions} />
               <Route exact path="/network/:tab?" component={network} />
               <Route exact path="/validators/:identifier/:tab?" component={validators} />

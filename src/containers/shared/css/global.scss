@@ -39,6 +39,10 @@
   src: url('../fonts/SpaceMono-BoldItalic.ttf');
 }
 
+body {
+  color: $white;
+}
+
 body,
 input {
   padding: 0px;
@@ -321,3 +325,5 @@ div.react-stockchart div {
     margin-bottom: 15px;
   }
 }
+
+@import './form';

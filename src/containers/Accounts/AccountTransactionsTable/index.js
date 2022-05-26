@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router';
+
 import { ReactComponent as SuccessIcon } from '../../shared/images/success.svg';
 import { ReactComponent as FailIcon } from '../../shared/images/ic_fail.svg';
 import { localizeDate, concatTx } from '../../shared/utils';
@@ -29,8 +31,11 @@ const DATE_OPTIONS = {
 export const AccountTxTable = props => {
   const [transactions, setTransactions] = useState([]);
   const [marker, setMarker] = useState(null);
+  const { id } = useParams();
+  const accountId = id;
+
   const { t } = useTranslation();
-  const { accountId, actions, data, loadingError } = props;
+  const { actions, data, loadingError } = props;
   const rippledSocket = useContext(SocketContext);
 
   useEffect(() => {
@@ -39,7 +44,7 @@ export const AccountTxTable = props => {
     setTransactions(oldTransactions => {
       return concatTx(oldTransactions, data.transactions);
     });
-  }, [data]);
+  }, [id, data]);
 
   useEffect(() => {
     setTransactions([]);
@@ -127,7 +132,6 @@ export const AccountTxTable = props => {
   return (
     <div className="section transactions-table">
       <ol className="account-transactions">
-        <div className="title">Transactions</div>
         <li className="transaction-li transaction-li-header">
           <div className="col-account">{t('account')}</div>
           <div className="col-type">{t('transaction_type')}</div>
@@ -145,7 +149,7 @@ AccountTxTable.propTypes = {
   language: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingError: PropTypes.string,
-  accountId: PropTypes.string.isRequired,
+  // accountId: PropTypes.string.isRequired,
   data: PropTypes.shape({
     marker: PropTypes.string,
     transactions: PropTypes.arrayOf(

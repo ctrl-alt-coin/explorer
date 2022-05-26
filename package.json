@@ -184,6 +184,7 @@
           ]
         }
       ],
+      "react/forbid-prop-types": "off",
       "jsx-a11y/href-no-hash": "off",
       "jsx-a11y/anchor-is-valid": [
         "warn",
@@ -205,6 +206,7 @@
           "tsx": "never"
         }
       ],
+      "import/prefer-default-export": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": [
         "error"
