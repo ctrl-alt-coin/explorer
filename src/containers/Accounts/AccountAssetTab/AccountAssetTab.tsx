@@ -10,7 +10,7 @@ interface Props {
   account: any;
 }
 
-export const AccountAssetTab = ({ account }: Props) => {
+const AccountAssetTabDisconnected = ({ account }: Props) => {
   const assetTypes = ['token', 'nft'];
   const { id: accountId, assetType = assetTypes[0] } = useParams<{
     id: string;
@@ -55,6 +55,6 @@ export const AccountAssetTab = ({ account }: Props) => {
   );
 };
 
-export default connect((state: any) => ({
+export const AccountAssetTab = connect((state: any) => ({
   account: state.accountHeader.data,
-}))(AccountAssetTab);
+}))(AccountAssetTabDisconnected);

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Currency from '../../shared/components/Currency';
 import { Amount } from '../../shared/components/Amount';
+import Loader from '../../shared/components/Loader';
 
 interface Props {
   account: any;
@@ -11,6 +12,16 @@ interface Props {
 export const AccountTokenTable = (props: Props) => {
   const { account } = props;
   const { t } = useTranslation();
+
+  function renderNoResults() {
+    return (
+      <tr>
+        <td colSpan={3} className="empty-message">
+          {t('assets.no_tokens_message')}
+        </td>
+      </tr>
+    );
+  }
 
   function renderRow(token: any) {
     const tokenName = `${token.currency}.${token.issuer}`;
@@ -42,8 +53,12 @@ export const AccountTokenTable = (props: Props) => {
             <th className="right">{t('amount')}</th>
           </tr>
         </thead>
-        {(account?.tokens ?? []).map(renderRow)}
+        <tbody>
+          {account.tokens &&
+            (account?.tokens?.length ? account?.tokens.map(renderRow) : renderNoResults())}
+        </tbody>
       </table>
+      {!account.tokens && <Loader />}
     </div>
   );
 };

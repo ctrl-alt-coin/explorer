@@ -18,22 +18,34 @@ const AccountNFTTableDisconnected = props => {
   const rippledSocket = useContext(SocketContext);
 
   useEffect(() => {
-    actions.loadAccountNFTs(accountId, undefined, rippledSocket);
-  }, [accountId, actions, rippledSocket]);
-
-  useEffect(() => {
     if (data.nfts == null) return;
     setMarker(data.marker);
     setNfts(oldNfts => {
       return concatNFT(oldNfts, data.nfts);
     });
-  }, [data]);
+  }, [accountId, data]);
+
+  useEffect(() => {
+    setNfts([]);
+    setMarker(null);
+    actions.loadAccountNFTs(accountId, undefined, rippledSocket);
+  }, [accountId]);
 
   const loadMoreNfts = () => {
     actions.loadAccountNFTs(accountId, marker, rippledSocket);
   };
 
-  const renderListItem = nft => {
+  function renderNoResults() {
+    return (
+      <tr>
+        <td colSpan={3} className="empty-message">
+          {t('assets.no_tokens_message')}
+        </td>
+      </tr>
+    );
+  }
+
+  const renderRow = nft => {
     return (
       <tr key={nft.NFTokenID}>
         <td>{nft.NFTokenID}</td>
@@ -63,7 +75,7 @@ const AccountNFTTableDisconnected = props => {
             <td className="col-taxon">{t('taxon')}</td>
           </tr>
         </thead>
-        <tbody>{nfts.map(transaction => renderListItem(transaction))}</tbody>
+        <tbody>{!loading && (nfts?.length ? nfts.map(renderRow) : renderNoResults())}</tbody>
       </table>
       {loading ? <Loader /> : renderLoadMoreButton()}
     </div>
